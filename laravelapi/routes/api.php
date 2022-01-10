@@ -15,8 +15,9 @@ use App\Http\Controllers\API\StudentController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
+Route::get('/studentsdata', [StudentController::class, 'index']);
 Route::post('/add-studentapi', [StudentController::class, 'store']);
+
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
