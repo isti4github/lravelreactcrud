@@ -2,9 +2,11 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
 
-class AddStudent extends Component{
 
-     
+class EditStudent extends Component{
+
+   
+
     state = {
         stname: '',
         course: '',
@@ -19,36 +21,61 @@ class AddStudent extends Component{
         });
     }
 
-    saveStudent = async (e) => {
+    
+    async componentDidMount()
+    {
+        //const id = this.props.match.params.id;
+        const id=3;
+        const respo= await axios.get(`http://localhost:8000/api/edit-studentapi/${id}`) ;
+        console.log(respo);
+        
+       if(respo.data.status === 200)
+       {
+           
+           //after inserrt make all the input field empty
+           this.setState({
+            stname: respo.data.student.stname,
+            course: respo.data.student.course,
+            email: respo.data.student.email,
+            phone: respo.data.student.phone,
+           });
+
+       }
+        
+    }
+
+
+    updateStudent = async (e) => {
 
         e.preventDefault();
 
-        const respo= await axios.post(`http://localhost:8000/api/add-studentapi`, this.state) ; //in this line api is default do not think about that 
+        document.getElementById('updatebtn').innerText="Updating";
+
+        //const id = this.props.match.params.id;
+        const id=3;
+
+        const respo= await axios.put(`http://localhost:8000/api/update-studentapi/${id}`,this.state) ; //in this line api is default do not think about that 
 
        if(respo.data.status === 200)
-       {
+       {   document.getElementById('updatebtn').innerText="Update Student";
            console.log(respo.data.message);
-           //after inserrt make all the input field empty
-           this.setState({
-            stname: '',
-            course: '',
-            email: '',
-            phone: '',
-           });
+           
 
        }
     }
 
 
      render(){
+         
             return(
+
 
                    <div className='container'>
                        <div className='row'>
                            <div className='col-md-12'>
                                <div className='card'>
                                    <div className='card-header'>
-                                       <h4>Add Students
+                                       <h4>Edit Students
 
                                            <Link to={'/'} className="btn btn-primary float-end">Back</Link>
 
@@ -58,7 +85,7 @@ class AddStudent extends Component{
                                    </div>
                                    <div className='card-body'>
 
-                                       <form onSubmit={this.saveStudent}>
+                                       <form onSubmit={this.updateStudent}>
 
                                            <div className='from-group mb-3'>
                                                <label>Student Name</label>
@@ -81,7 +108,7 @@ class AddStudent extends Component{
                                            </div>
 
                                            <div className='from-group mb-3'>
-                                               <button type='submit' className='btn btn-primary'>Save Student</button>
+                                               <button id="updatebtn" type='submit' className='btn btn-primary'>Update Student</button>
                                            </div>
 
 
@@ -104,4 +131,4 @@ class AddStudent extends Component{
 
 }
 
-export default AddStudent;
+export default EditStudent;

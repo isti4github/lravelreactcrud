@@ -24,6 +24,17 @@ class Student extends Component{
 
     }
 
+    deleteStudent = async (e, id) =>
+    {
+        const res = await axios.delete(`http://localhost:8000/api/delete-studentapi/${id}`);
+
+        if(res.data.status===200)
+        {
+            console.log(res.data.message);
+        }
+
+    }
+
      render(){
           
 
@@ -46,13 +57,13 @@ class Student extends Component{
                         <td>{item.email}</td>
                         <td>{item.phone}</td>
                         <td>
-                            <Link to={'view-student/${item.id}'} className='btn btn-success btn-sm'>View</Link>
+                        <Link to={`view-student/${item.id}`} className='btn btn-success btn-sm'>View</Link>
                         </td>
                         <td>
-                            <Link to={'edit-student/${item.id}'} className='btn btn-warning btn-sm'>Edit</Link>
+                            <Link to={`edit-student/${item.id}`} className='btn btn-warning btn-sm'>Edit</Link>
                         </td>
                         <td>
-                            <button type='button' to={'delete-student/${item.id}'} className='btn btn-danger btn-sm'>Delete</button>
+                            <button type='button' onClick={(e) => this.deleteStudent(e, item.id)}  className='btn btn-danger btn-sm'>Delete</button>
                         </td>
                     </tr>
 

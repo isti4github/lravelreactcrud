@@ -17,6 +17,10 @@ use App\Http\Controllers\API\StudentController;
 */
 Route::get('/studentsdata', [StudentController::class, 'index']);
 Route::post('/add-studentapi', [StudentController::class, 'store']);
+Route::get('/edit-studentapi/{id}', [StudentController::class, 'edit']);
+Route::put('/update-studentapi/{id}', [StudentController::class, 'updatest']);
+Route::delete('delete-studentapi/{id}', [StudentController::class, 'destroy']);
+
 
 
 
