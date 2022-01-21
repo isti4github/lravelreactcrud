@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
+import swal from 'sweetalert';
 
 class Student extends Component{
 
@@ -26,11 +27,22 @@ class Student extends Component{
 
     deleteStudent = async (e, id) =>
     {
+        const deletetxt=e.currentTarget;
+        deletetxt.innerText="Deleting..."
+
         const res = await axios.delete(`http://localhost:8000/api/delete-studentapi/${id}`);
 
         if(res.data.status===200)
         {
-            console.log(res.data.message);
+            
+            deletetxt.closest("tr").remove();
+            //console.log(res.data.message);
+
+            swal({
+                title: "success!",
+                text: res.data.message,
+                icon: "success",
+              });
         }
 
     }
